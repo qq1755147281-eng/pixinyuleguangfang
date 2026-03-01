@@ -1,0 +1,358 @@
+﻿<html lang="zh-CN"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>官方平台</title>
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 统一的 Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#000000',
+                        secondary: '#ffffff',
+                        accent: '#FFD700',
+                        darkBlue: '#1a2b4c',
+                        lightGray: '#f0f0f0'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'scroll-left': 'scroll-left 30s linear infinite',
+                    },
+                    keyframes: {
+                        'scroll-left': {
+                            '0%': { transform: 'translateX(100%)' },
+                            '100%': { transform: 'translateX(-100%)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            }
+            .border-gradient {
+                border-image: linear-gradient(to right, #FFD700, #1a2b4c) 1;
+            }
+            .backdrop-blur {
+                backdrop-filter: blur(8px);
+            }
+        }
+        
+        /* 自定义样式 */
+        .canvas-area {
+            background-image: url('https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/510d7576e1824775b804f4cb8605717a~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=20260127210727CAA286D9C51A1D1C1C90&rrcfp=f06b921b&x-expires=1772111270&x-signature=WrR3uBCFIHgAHT6COZXzy3nNHaM%3D');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .announcement-container {
+            position: relative;
+            overflow: hidden;
+            height: 40px;
+        }
+        
+        .announcement-content {
+            white-space: nowrap;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 50;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+        
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
+        }
+        
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .text-item {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .text-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .image-item {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .image-item:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body class="bg-primary text-secondary min-h-screen">
+    <!-- 主容器 -->
+    <div class="container mx-auto px-4 py-6 max-w-md">
+        <!-- 顶部画布区域 -->
+        <div class="canvas-area rounded-lg mb-6 overflow-hidden relative h-64 flex items-center justify-center">
+            <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+            <img src="https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/41ce861af386472787871d1c9149d34a~tplv-a9rns2rl98-image.image?lk3s=8e244e95&amp;rcl=20260131173901EE03EB04BFFBCB2DC2CA&amp;rrcfp=e75484ac&amp;x-expires=1770457141&amp;x-signature=EN0uPU6G%2BaJ6nIBQeyl2J0ips2Q%3D" alt="官方标志" class="w-32 h-32 object-contain z-10">
+        </div>
+        
+        <!-- 公告栏区域 -->
+        <div class="announcement-container bg-black rounded-lg mb-6 border border-accent flex items-center">
+            <div class="flex-shrink-0 pl-4 pr-2">
+                <img src="https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/8555f122f33d454fb69d3096058d1123~tplv-a9rns2rl98-image.image?lk3s=8e244e95&amp;rcl=20260127210727CAA286D9C51A1D1C1C90&amp;rrcfp=f06b921b&amp;x-expires=1772111263&amp;x-signature=D5rBv8c55Wo0ij7dOBmD%2BNsjgz4%3D" alt="公告图标" class="w-6 h-6">
+            </div>
+            <div class="overflow-hidden flex-grow">
+                <div class="announcement-content animate-scroll-left">
+                    <span class="text-white text-sm">欢迎访问官方平台！ | </span>
+                    <span class="text-white text-sm">最新公告：派生态即将启动，启动公募股东阶段，招募推广团队。宣发全民级游戏开发，赋能派链生态流通产生价值。</span>
+                    <span class="text-white text-sm">
+</span>
+                    <span class="text-white text-sm"> | </span>
+                    <span class="text-white text-sm">
+</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 功能区域 -->
+        <div class="space-y-6 mt-6">
+            <!-- 功能项1 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                <button class="bg-darkBlue bg-opacity-50 rounded-lg border-2 border-accent p-4 transition-all duration-300 hover:bg-opacity-70 hover:scale-105 active:scale-95">
+                    <h3 class="text-accent font-bold text-base mb-2" style="font-size: 20px;">关于我们</h3>
+                    <p class="text-xs text-gray-300">派信娱乐 简介</p>
+                </button>
+                <div class="image-item rounded-lg overflow-hidden shadow-lg aspect-square bg-gray-800 flex flex-col">
+                    <div class="bg-accent text-black font-bold p-2 text-center text-sm" style="font-size: 16px; font-weight: bold;">关于我们</div>
+                    <div class="w-full h-full bg-transparent text-white p-4 text-center flex items-center justify-center">
+                        <p>派信娱乐发起人为美籍华裔，创业者团队，硅谷早期web3从业者。团队核心是打造一个去中心化，先锋人人持股，股东自治，股东分红的全民生态。研究中华区pi数据并部署中华区首个国民级游戏生态， 致力于创建所有先锋都可以低门槛参与的生态。研发大众流行的国民级游戏为入口。流通产生循环，赋能生态提升价值。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 功能项2 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                <button class="bg-darkBlue bg-opacity-50 rounded-lg border-2 border-accent p-4 transition-all duration-300 hover:bg-opacity-70 hover:scale-105 active:scale-95">
+                    <h3 class="text-accent font-bold text-base mb-2">股东详情</h3>
+                    <p class="text-xs text-gray-300">透明 公募 介绍</p>
+                </button>
+                <div class="image-item rounded-lg overflow-hidden shadow-lg aspect-square bg-gray-800 flex flex-col">
+                    <div class="bg-accent text-black font-bold p-2 text-center text-sm" style="font-size: 16px;">股东详情</div>
+                    <div class="w-full h-full bg-transparent text-white p-4 text-center flex items-center justify-center">
+                        <p>生态采用公开募集方式， 我们严格遵守信息披露制度， 确保股东权益得到充分保障-------开放股东名额， 让权所有先锋， 实现去中心化dao自治， 设立1000股东， 900派为一股------真正的做的无项目方， 无资本控制， 无风险评估。                        （权利在股东手中，股东由先锋产生）</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 功能项3 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                <button class="bg-darkBlue bg-opacity-50 rounded-lg border-2 border-accent p-4 transition-all duration-300 hover:bg-opacity-70 hover:scale-105 active:scale-95">
+                    <h3 class="text-accent font-bold text-base mb-2">官方地址</h3>
+                    <p class="text-xs text-gray-300">警惕骗局  认准唯一地址</p>
+                </button>
+                <div class="image-item rounded-lg overflow-hidden shadow-lg bg-gray-800 flex flex-col" style="height: 560px;">
+                    <div class="bg-accent text-black font-bold p-2 text-center text-sm" style="font-size: 16px;">官方地址</div>
+                    <div class="w-full h-full bg-transparent text-white p-4 text-center flex flex-col justify-center overflow-y-auto">
+                        <p class="mb-2 text-base">交易所收款地址为：</p>
+                        <p class="break-all mb-1 text-sm">MBC6NRTTQLRCABQHIR5J4R4YDJWFWRAO4ZRQIM2SVI5GSIZ2HZ42QAAAAAAC4RRGG7JFI</p>
+                        <button class="bg-accent text-black text-xs px-3 py-1 rounded mb-4" onclick="copyToClipboard('MBC6NRTTQLRCABQHIR5J4R4YDJWFWRAO4ZRQIM2SVI5GSIZ2HZ42QAAAAAAC4RRGG7JFI')">复制地址</button>
+                        
+                        <p class="mb-2 text-base">交易所 UID 收款地址（免手续费）：</p>
+                        <p class="break-all mb-1 text-sm">芝麻UID   48602709</p>
+                        <button class="bg-accent text-black text-xs px-3 py-1 rounded mb-4" onclick="copyToClipboard('PXENT-789456-UID')">复制地址</button>
+                        
+                        <p class="mb-2 text-base">官方国际微信 TEL TLK 收款地址为：</p>
+                        <p class="break-all mb-1 text-sm">MBU7PR3VSIWZGQZYOHP6KEUEBJPX4HYN6FMHDB5VQNJ2NNVCWU4D4GEPWDPNOXFNEGR5I</p>
+                        <button class="bg-accent text-black text-xs px-3 py-1 rounded mb-4" onclick="copyToClipboard('MBU7PR3VSIWZGQZYOHP6KEUEBJPX4HYN6FMHDB5VQNJ2NNVCWU4D4GEPWDPNOXFNEGR5I')">复制地址</button>
+                        
+                        <p class="mb-2 text-base">九绿钱包 映射钱包 收款地址为：</p>
+                        <p class="break-all mb-1 text-sm">GAHN37DZ5AOCH4PMBBPTN6VEDG7RP6YFNG35XX5YFCJREETM62HZ7HGI</p>
+                        <button class="bg-accent text-black text-xs px-3 py-1 rounded mb-4" onclick="copyToClipboard('GAHN37DZ5AOCH4PMBBPTN6VEDG7RP6YFNG35XX5YFCJREETM62HZ7HGI')">复制地址</button>
+                        
+                        <p class="mt-2">请警惕任何非官方渠道， 谨防诈骗。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 功能项4 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                <div class="aspect-square bg-gray-800 rounded-lg overflow-hidden flex items-center justify-center">
+                    <img src="https://p3-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/e3084601ff0b4165af74e2a6dff3daba.png~tplv-a9rns2rl98-24:720:720.png?lk3s=8e244e95&amp;rcl=2026013117351955FFCD3DC2055833AC81&amp;rrcfp=8a172a1a&amp;x-expires=1770456919&amp;x-signature=U0qDQ9w92Woc3aakR33O9fS5B%2FE%3D" alt="官方图片" class="w-full h-full object-cover">
+                </div>
+                <button class="bg-darkBlue bg-opacity-50 rounded-lg border-2 border-accent p-4 transition-all duration-300 hover:bg-opacity-70 hover:scale-105 active:scale-95">
+                    <h3 class="text-accent font-bold text-base mb-2">查询官方</h3>
+                    <p class="text-xs text-gray-300">派信娱乐生态 官方渠道</p>
+                </button>
+                <div class="image-item rounded-lg overflow-hidden shadow-lg bg-gray-800 flex flex-col" style="height: 560px;">
+                    <div class="bg-accent text-black font-bold p-2 text-center text-sm" style="font-size: 18px;">官方社媒</div>
+                    <div class="w-full h-full bg-transparent text-white p-4 text-center flex flex-col justify-center overflow-y-auto">
+                        <p class="mb-4">您可以通过以下官方渠道查询所有产品信息：</p>
+                        
+                        <p class="mb-1">官方邮箱： pixin.yule@protonmail.com</p>
+                        <button class="bg-accent text-black text-xs px-3 py-1 rounded mb-4" onclick="copyToClipboard('DHRY46')">复制</button>
+                        
+                        <p class="mb-1">电报群： pixinyule314</p>
+                        <button class="bg-accent text-black text-xs px-3 py-1 rounded mb-4" onclick="copyToClipboard('356446346363')">复制</button>
+                        
+                        <p class="mb-1">TELTLK国际总群： 3111171248</p>
+                        <button class="bg-accent text-black text-xs px-3 py-1 rounded mb-4" onclick="copyToClipboard('3111171248')">复制</button>
+                        
+                        <p class="mb-1">TELTLK国际总群二群： 1409888754</p>
+                        <button class="bg-accent text-black text-xs px-3 py-1 rounded mb-4" onclick="copyToClipboard('3111171251')">复制</button>
+                        
+                        <p class="mb-1">TELTLK  股东预约群： 1744105802</p>
+                        <button class="bg-accent text-black text-xs px-3 py-1 rounded mb-4" onclick="copyToClipboard('3111171252')">复制</button>
+                        
+                        <p class="mt-4">我们在全国各主要城市招募推广大使和社区， 为用户提供便捷的线下咨询服务。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 底部版权信息 -->
+        <div class="mt-8 text-center text-xs text-gray-400 pb-4">
+            <p>© 2026 官方平台 版权派生态所有</p>
+            <p class="mt-1">权益保障 | 生态赋能 | 社区自治</p>
+        </div>
+    </div>
+    
+    <!-- 图片查看模态框 -->
+    <div id="imageModal" class="modal" onclick="closeModal()">
+        <span class="close">×</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+    
+    <!-- JavaScript -->
+    <script>
+        // 图片查看功能
+        function openModal(imgSrc) {
+            const modal = document.getElementById("imageModal");
+            const modalImg = document.getElementById("modalImage");
+            
+            modal.style.display = "flex";
+            modalImg.src = imgSrc;
+            document.body.style.overflow = "hidden"; // 防止背景滚动
+        }
+        
+        function closeModal() {
+            const modal = document.getElementById("imageModal");
+            modal.style.display = "none";
+            document.body.style.overflow = "auto"; // 恢复背景滚动
+        }
+        
+        // 点击模态框外部关闭
+        window.onclick = function(event) {
+            const modal = document.getElementById("imageModal");
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+        
+        // 公告栏暂停/继续功能
+        const announcementContent = document.querySelector('.announcement-content');
+        let isPaused = false;
+        
+        announcementContent.addEventListener('mouseenter', () => {
+            announcementContent.style.animationPlayState = 'paused';
+            isPaused = true;
+        });
+        
+        announcementContent.addEventListener('mouseleave', () => {
+            announcementContent.style.animationPlayState = 'running';
+            isPaused = false;
+        });
+        
+        // 触摸设备支持
+        announcementContent.addEventListener('touchstart', () => {
+            announcementContent.style.animationPlayState = 'paused';
+            isPaused = true;
+        });
+        
+        announcementContent.addEventListener('touchend', () => {
+            announcementContent.style.animationPlayState = 'running';
+            isPaused = false;
+        });
+        
+        // 复制到剪贴板功能
+        function copyToClipboard(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            
+            // 显示复制成功提示
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = '已复制!';
+            button.classList.add('bg-green-500');
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.classList.remove('bg-green-500');
+            }, 2000);
+        }
+        
+        // 显示官方二维码功能
+        function showOfficialQRCode() {
+            const modal = document.getElementById("imageModal");
+            const modalImg = document.getElementById("modalImage");
+            
+            // 设置二维码图片（这里使用占位图，实际应用中可以替换为真实的二维码图片）
+            modalImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=Official%20Address%20QR%20Code';
+            modalImg.alt = '官方地址二维码';
+            
+            // 显示模态框
+            modal.style.display = "flex";
+            document.body.style.overflow = "hidden"; // 防止背景滚动
+        }
+        
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            // 添加页面加载动画效果
+            const elements = document.querySelectorAll('.text-item, .image-item');
+            elements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+        });
+    </script>
+
+</body></html>
