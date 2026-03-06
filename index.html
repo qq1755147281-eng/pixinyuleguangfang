@@ -1,391 +1,358 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
+﻿<html lang="zh-CN"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>派信娱乐 - 引领游戏潮流</title>
+    <title>官方平台</title>
+    <!-- Tailwind CSS v3 -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lucide@0.544.0/dist/umd/lucide.min.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Kaiti', 'STKaiti', 'KaiTi', '楷体', sans-serif;
-            background-color: #000;
-            overflow: hidden;
-            height: 100vh;
-            width: 100vw;
-        }
-
-        /* 流星背景 */
-        #meteor-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
-
-        /* 圆圈层 */
-        #circles-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .circle {
-            position: absolute;
-            border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.15), transparent 70%);
-            box-shadow: 
-                0 0 10px rgba(255, 255, 255, 0.2),
-                inset 0 0 10px rgba(255, 255, 255, 0.1);
-            animation: float 20s infinite ease-in-out;
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translate(0, 0) rotate(0deg);
-            }
-            25% {
-                transform: translate(100px, -50px) rotate(90deg);
-            }
-            50% {
-                transform: translate(50px, 100px) rotate(180deg);
-            }
-            75% {
-                transform: translate(-50px, 50px) rotate(270deg);
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 统一的 Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#000000',
+                        secondary: '#ffffff',
+                        accent: '#FFD700',
+                        darkBlue: '#1a2b4c',
+                        lightGray: '#f0f0f0'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'scroll-left': 'scroll-left 30s linear infinite',
+                    },
+                    keyframes: {
+                        'scroll-left': {
+                            '0%': { transform: 'translateX(100%)' },
+                            '100%': { transform: 'translateX(-100%)' }
+                        }
+                    }
+                }
             }
         }
-
-        /* 内容容器 */
-        .content-container {
-            position: relative;
-            z-index: 2;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            padding: 1vh 0 5vh;
-            gap: 1.5vh;
-        }
-
-        /* 标题样式 */
-        .title-section {
-            text-align: center;
-            margin-bottom: 0.5vh;
-        }
-
-        .main-title {
-            font-size: clamp(2.5rem, 7vw, 5rem);
-            font-weight: 700;
-            color: #fff;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-            letter-spacing: 2px;
-        }
-
-        .subtitle {
-            font-size: clamp(0.9rem, 1.8vw, 1.3rem);
-            color: #aaa;
-            margin-top: 0.5rem;
-            letter-spacing: 1px;
-        }
-
-        /* 图片和按钮区域 */
-        .images-section {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.2rem;
-            width: 100%;
-            max-width: 450px;
-            flex: 1;
-            justify-content: flex-start;
-        }
-
-        .image-button-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.6rem;
-            width: 100%;
-        }
-
-        .square-image {
-            width: 50%;
-            aspect-ratio: 1;
-            background-color: #111;
-            border-radius: 12px;
-            overflow: hidden;
-            position: relative;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            margin: 0 auto;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .square-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .square-image:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
-        }
-
-        /* 响应式设计 - 移动端优化 */
-        @media (max-width: 768px) {
-            .content-container {
-                padding: 1vh 0 3vh;
-                gap: 1.5vh;
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
             }
-            
-            .main-title {
-                font-size: clamp(2rem, 12vw, 4rem);
+            .border-gradient {
+                border-image: linear-gradient(to right, #FFD700, #1a2b4c) 1;
             }
-            
-            .subtitle {
-                font-size: clamp(0.8rem, 3vw, 1.1rem);
-                margin-top: 0.3rem;
-            }
-            
-            .images-section {
-                gap: 1rem;
-                max-width: 350px;
-            }
-            
-            .image-button-group {
-                gap: 0.6rem;
-            }
-            
-            .square-image {
-                width: 45%;
-            }
-            
-            .action-button {
-                padding: 0.4rem 1rem;
-                font-size: 0.75rem;
-                max-width: 140px;
+            .backdrop-blur {
+                backdrop-filter: blur(8px);
             }
         }
         
-        /* 按钮样式 */
-        .action-button {
-            padding: 0.5rem 1.2rem;
-            background-color: rgba(255, 255, 255, 0.05);
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 25px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        /* 自定义样式 */
+        .canvas-area {
+            background-image: url('https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/510d7576e1824775b804f4cb8605717a~tplv-a9rns2rl98-image.image?lk3s=8e244e95&rcl=20260127210727CAA286D9C51A1D1C1C90&rrcfp=f06b921b&x-expires=1772111270&x-signature=WrR3uBCFIHgAHT6COZXzy3nNHaM%3D');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .announcement-container {
+            position: relative;
+            overflow: hidden;
+            height: 40px;
+        }
+        
+        .announcement-content {
+            white-space: nowrap;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 50;
+            left: 0;
+            top: 0;
             width: 100%;
-            max-width: 160px;
-            backdrop-filter: blur(10px);
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
         }
-
-        .action-button:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
+        
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 90%;
+            max-height: 90%;
         }
-
-        .action-button:active {
-            transform: translateY(0);
+        
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .text-item {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .text-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        .image-item {
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .image-item:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
         }
     </style>
 </head>
-<body>
-    <!-- 音效元素 -->
-    <audio id="click-sound" preload="auto" volume="0.5">
-        <source src="https://assets.mixkit.co/active_storage/sfx/2018/2018-preview.mp3" type="audio/mpeg">
-    </audio>
-
-    <!-- 流星背景 -->
-    <canvas id="meteor-background"></canvas>
-
-    <!-- 圆圈层 -->
-    <div id="circles-container">
-        <div class="circle" style="width: 300px; height: 300px; top: 10%; left: 10%; animation-delay: 0s;"></div>
-        <div class="circle" style="width: 200px; height: 200px; top: 50%; right: 15%; animation-delay: -5s;"></div>
-        <div class="circle" style="width: 250px; height: 250px; bottom: 20%; left: 20%; animation-delay: -10s;"></div>
-    </div>
-
-    <!-- 内容容器 -->
-    <div class="content-container">
-        <!-- 标题部分 -->
-        <div class="title-section">
-            <h1 class="main-title">派信娱乐</h1>
-            <p class="subtitle" style="color: rgb(240, 237, 237); font-size: 14px;">引领派生态游戏潮流</p>
+<body class="bg-primary text-secondary min-h-screen">
+    <!-- 主容器 -->
+    <div class="container mx-auto px-4 py-6 max-w-md">
+        <!-- 顶部画布区域 -->
+        <div class="canvas-area rounded-lg mb-6 overflow-hidden relative h-64 flex items-center justify-center">
+            <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+            <img src="https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/code_assistant/41ce861af386472787871d1c9149d34a~tplv-a9rns2rl98-image.image?lk3s=8e244e95&amp;rcl=20260131173901EE03EB04BFFBCB2DC2CA&amp;rrcfp=e75484ac&amp;x-expires=1770457141&amp;x-signature=EN0uPU6G%2BaJ6nIBQeyl2J0ips2Q%3D" alt="官方标志" class="w-32 h-32 object-contain z-10">
         </div>
-
-        <!-- 图片和按钮部分 -->
-        <div class="images-section">
-            <div class="image-button-group">
-                <div class="square-image">
-                    <img src="https://p26-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/fa2bd1913da44bf0a67ea6f8fecf5745.jpg~tplv-a9rns2rl98-24:720:720.image?lk3s=8e244e95&amp;rcl=20260202165225597B414255485C4073A2&amp;rrcfp=8a172a1a&amp;x-expires=1770627146&amp;x-signature=%2B7agRGEGHYSNIY1daUFcUtUZHcM%3D" alt="派信娱乐官方宣传">
-                </div>
-                <button class="action-button" onclick="handleButtonClick(1)">官方介绍</button>
+        
+        <!-- 公告栏区域 -->
+        <div class="announcement-container bg-black rounded-lg mb-6 border border-accent flex items-center">
+            <div class="flex-shrink-0 pl-4 pr-2">
+                <img src="https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/8555f122f33d454fb69d3096058d1123~tplv-a9rns2rl98-image.image?lk3s=8e244e95&amp;rcl=20260127210727CAA286D9C51A1D1C1C90&amp;rrcfp=f06b921b&amp;x-expires=1772111263&amp;x-signature=D5rBv8c55Wo0ij7dOBmD%2BNsjgz4%3D" alt="公告图标" class="w-6 h-6">
             </div>
-
-            <div class="image-button-group">
-                <div class="square-image">
-                    <img src="https://p3-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/c16e8f85181442c883e333d11d633738.jpg~tplv-a9rns2rl98-24:720:720.image?lk3s=8e244e95&amp;rcl=20260202165349366A17818B208236B2E3&amp;rrcfp=8a172a1a&amp;x-expires=1770627229&amp;x-signature=QOjXcA98YIYjouIoh374sPRJ0eU%3D" alt="派信娱乐下载">
+            <div class="overflow-hidden flex-grow">
+                <div class="announcement-content animate-scroll-left">
+                    <span class="text-white text-sm">欢迎访问官方平台！ | </span>
+                    <span class="text-white text-sm">最新公告：派生态即将启动，启动公募股东阶段，招募推广团队。宣发全民级游戏开发，赋能派链生态流通产生价值。</span>
+                    <span class="text-white text-sm">
+</span>
+                    <span class="text-white text-sm"> | </span>
+                    <span class="text-white text-sm">
+</span>
                 </div>
-                <button class="action-button" onclick="handleButtonClick(2)">股东查询器</button>
-            </div>
-
-            <div class="image-button-group">
-                <div class="square-image">
-                    <img src="https://p11-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/9f37f5db149c4abc909a67946844c16d.jpg~tplv-a9rns2rl98-24:720:720.image?lk3s=8e244e95&amp;rcl=20260202165508B4E979944AC4113659F3&amp;rrcfp=8a172a1a&amp;x-expires=1770627309&amp;x-signature=sD8yhMO7iK2BLFjCNr7kAe8cVBQ%3D" alt="派信娱乐预约">
-                </div>
-                <button class="action-button" onclick="handleButtonClick(3)">app模拟</button>
             </div>
         </div>
+        
+        <!-- 功能区域 -->
+        <div class="space-y-6 mt-6">
+            <!-- 功能项1 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                <button class="bg-darkBlue bg-opacity-50 rounded-lg border-2 border-accent p-4 transition-all duration-300 hover:bg-opacity-70 hover:scale-105 active:scale-95">
+                    <h3 class="text-accent font-bold text-base mb-2" style="font-size: 20px;">关于我们</h3>
+                    <p class="text-xs text-gray-300">派信娱乐 简介</p>
+                </button>
+                <div class="image-item rounded-lg overflow-hidden shadow-lg aspect-square bg-gray-800 flex flex-col">
+                    <div class="bg-accent text-black font-bold p-2 text-center text-sm" style="font-size: 16px; font-weight: bold;">关于我们</div>
+                    <div class="w-full h-full bg-transparent text-white p-4 text-center flex items-center justify-center">
+                        <p>派信娱乐发起人为美籍华裔，创业者团队，硅谷早期web3从业者。团队核心是打造一个去中心化，先锋人人持股，股东自治，股东分红的全民生态。研究中华区pi数据并部署中华区首个国民级游戏生态， 致力于创建所有先锋都可以低门槛参与的生态。研发大众流行的国民级游戏为入口。流通产生循环，赋能生态提升价值。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 功能项2 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                <button class="bg-darkBlue bg-opacity-50 rounded-lg border-2 border-accent p-4 transition-all duration-300 hover:bg-opacity-70 hover:scale-105 active:scale-95">
+                    <h3 class="text-accent font-bold text-base mb-2">股东详情</h3>
+                    <p class="text-xs text-gray-300">透明 公募 介绍</p>
+                </button>
+                <div class="image-item rounded-lg overflow-hidden shadow-lg aspect-square bg-gray-800 flex flex-col">
+                    <div class="bg-accent text-black font-bold p-2 text-center text-sm" style="font-size: 16px;">股东详情</div>
+                    <div class="w-full h-full bg-transparent text-white p-4 text-center flex items-center justify-center">
+                        <p>生态采用公开募集方式， 我们严格遵守信息披露制度， 确保股东权益得到充分保障-------开放股东名额， 让权所有先锋， 实现去中心化dao自治， 设立1000股东， 900派为一股------真正的做的无项目方， 无资本控制， 无风险评估。                        （权利在股东手中，股东由先锋产生）</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 功能项3 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                <button class="bg-darkBlue bg-opacity-50 rounded-lg border-2 border-accent p-4 transition-all duration-300 hover:bg-opacity-70 hover:scale-105 active:scale-95">
+                    <h3 class="text-accent font-bold text-base mb-2">官方地址</h3>
+                    <p class="text-xs text-gray-300">警惕骗局  认准唯一地址</p>
+                </button>
+                <div class="image-item rounded-lg overflow-hidden shadow-lg bg-gray-800 flex flex-col" style="height: 560px;">
+                    <div class="bg-accent text-black font-bold p-2 text-center text-sm" style="font-size: 16px;">官方地址</div>
+                    <div class="w-full h-full bg-transparent text-white p-4 text-center flex flex-col justify-center overflow-y-auto">
+                        <p class="mb-2 text-base">交易所收款地址为：</p>
+                        <p class="break-all mb-1 text-sm">MBC6NRTTQLRCABQHIR5J4R4YDJWFWRAO4ZRQIM2SVI5GSIZ2HZ42QAAAAAAC4RRGG7JFI</p>
+                        <button class="bg-accent text-black text-xs px-3 py-1 rounded mb-4" onclick="copyToClipboard('MBC6NRTTQLRCABQHIR5J4R4YDJWFWRAO4ZRQIM2SVI5GSIZ2HZ42QAAAAAAC4RRGG7JFI')">复制地址</button>
+                        
+                        <p class="mb-2 text-base">交易所 UID 收款地址（免手续费）：</p>
+                        <p class="break-all mb-1 text-sm">芝麻UID   48602709</p>
+                        <button class="bg-accent text-black text-xs px-3 py-1 rounded mb-4" onclick="copyToClipboard('PXENT-789456-UID')">复制地址</button>
+                        
+                        <p class="mb-2 text-base">官方国际微信 TEL TLK 收款地址为：</p>
+                        <p class="break-all mb-1 text-sm">MBU7PR3VSIWZGQZYOHP6KEUEBJPX4HYN6FMHDB5VQNJ2NNVCWU4D4GEPWDPNOXFNEGR5I</p>
+                        <button class="bg-accent text-black text-xs px-3 py-1 rounded mb-4" onclick="copyToClipboard('MBU7PR3VSIWZGQZYOHP6KEUEBJPX4HYN6FMHDB5VQNJ2NNVCWU4D4GEPWDPNOXFNEGR5I')">复制地址</button>
+                        
+                        <p class="mb-2 text-base">九绿钱包 映射钱包 收款地址为：</p>
+                        <p class="break-all mb-1 text-sm">GAHN37DZ5AOCH4PMBBPTN6VEDG7RP6YFNG35XX5YFCJREETM62HZ7HGI</p>
+                        <button class="bg-accent text-black text-xs px-3 py-1 rounded mb-4" onclick="copyToClipboard('GAHN37DZ5AOCH4PMBBPTN6VEDG7RP6YFNG35XX5YFCJREETM62HZ7HGI')">复制地址</button>
+                        
+                        <p class="mt-2">请警惕任何非官方渠道， 谨防诈骗。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 功能项4 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+                <div class="aspect-square bg-gray-800 rounded-lg overflow-hidden flex items-center justify-center">
+                    <img src="https://p3-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/e3084601ff0b4165af74e2a6dff3daba.png~tplv-a9rns2rl98-24:720:720.png?lk3s=8e244e95&amp;rcl=2026013117351955FFCD3DC2055833AC81&amp;rrcfp=8a172a1a&amp;x-expires=1770456919&amp;x-signature=U0qDQ9w92Woc3aakR33O9fS5B%2FE%3D" alt="官方图片" class="w-full h-full object-cover">
+                </div>
+                <button class="bg-darkBlue bg-opacity-50 rounded-lg border-2 border-accent p-4 transition-all duration-300 hover:bg-opacity-70 hover:scale-105 active:scale-95">
+                    <h3 class="text-accent font-bold text-base mb-2">查询官方</h3>
+                    <p class="text-xs text-gray-300">派信娱乐生态 官方渠道</p>
+                </button>
+                <div class="image-item rounded-lg overflow-hidden shadow-lg bg-gray-800 flex flex-col" style="height: 560px;">
+                    <div class="bg-accent text-black font-bold p-2 text-center text-sm" style="font-size: 18px;">官方社媒</div>
+                    <div class="w-full h-full bg-transparent text-white p-4 text-center flex flex-col justify-center overflow-y-auto">
+                        <p class="mb-4">您可以通过以下官方渠道查询所有产品信息：</p>
+                        
+                        <p class="mb-1">官方邮箱： pixin.yule@protonmail.com</p>
+                        <button class="bg-accent text-black text-xs px-3 py-1 rounded mb-4" onclick="copyToClipboard('DHRY46')">复制</button>
+                        
+                        <p class="mb-1">电报群： pixinyule314</p>
+                        <button class="bg-accent text-black text-xs px-3 py-1 rounded mb-4" onclick="copyToClipboard('356446346363')">复制</button>
+                        
+                        <p class="mb-1">TELTLK国际总群： 3111171248</p>
+                        <button class="bg-accent text-black text-xs px-3 py-1 rounded mb-4" onclick="copyToClipboard('3111171248')">复制</button>
+                        
+                        <p class="mb-1">TELTLK国际总群二群： 1409888754</p>
+                        <button class="bg-accent text-black text-xs px-3 py-1 rounded mb-4" onclick="copyToClipboard('3111171251')">复制</button>
+                        
+                        <p class="mb-1">TELTLK  股东预约群： 1744105802</p>
+                        <button class="bg-accent text-black text-xs px-3 py-1 rounded mb-4" onclick="copyToClipboard('3111171252')">复制</button>
+                        
+                        <p class="mt-4">我们在全国各主要城市招募推广大使和社区， 为用户提供便捷的线下咨询服务。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 底部版权信息 -->
+        <div class="mt-8 text-center text-xs text-gray-400 pb-4">
+            <p>© 2026 官方平台 版权派生态所有</p>
+            <p class="mt-1">权益保障 | 生态赋能 | 社区自治</p>
+        </div>
     </div>
-
+    
+    <!-- 图片查看模态框 -->
+    <div id="imageModal" class="modal" onclick="closeModal()">
+        <span class="close">×</span>
+        <img class="modal-content" id="modalImage">
+    </div>
+    
+    <!-- JavaScript -->
     <script>
-        // 流星背景动画
-        const canvas = document.getElementById('meteor-background');
-        const ctx = canvas.getContext('2d');
-
-        // 设置canvas尺寸
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-
-        // 流星类
-        class Meteor {
-            constructor() {
-                this.reset();
-            }
-
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = -10;
-                this.length = Math.random() * 100 + 50;
-                this.speed = Math.random() * 5 + 3;
-                this.opacity = Math.random() * 0.5 + 0.3;
-                this.angle = Math.PI / 4 + (Math.random() * Math.PI / 6 - Math.PI / 12);
-                this.size = Math.random() * 2 + 1;
-            }
-
-            update() {
-                this.x += Math.cos(this.angle) * this.speed;
-                this.y += Math.sin(this.angle) * this.speed;
-
-                if (this.y > canvas.height || this.x < -this.length || this.x > canvas.width + this.length) {
-                    this.reset();
-                }
-            }
-
-            draw() {
-                ctx.save();
-                ctx.globalAlpha = this.opacity;
-                ctx.beginPath();
-                ctx.moveTo(this.x, this.y);
-                ctx.lineTo(
-                    this.x - Math.cos(this.angle) * this.length,
-                    this.y - Math.sin(this.angle) * this.length
-                );
-                ctx.strokeStyle = '#fff';
-                ctx.lineWidth = this.size;
-                ctx.stroke();
-
-                // 流星尾巴
-                const gradient = ctx.createLinearGradient(
-                    this.x, this.y,
-                    this.x - Math.cos(this.angle) * this.length,
-                    this.y - Math.sin(this.angle) * this.length
-                );
-                gradient.addColorStop(0, 'rgba(255, 255, 255, 0)');
-                gradient.addColorStop(1, 'rgba(255, 255, 255, 0.3)');
-                
-                ctx.beginPath();
-                ctx.moveTo(this.x, this.y);
-                ctx.lineTo(
-                    this.x - Math.cos(this.angle) * this.length,
-                    this.y - Math.sin(this.angle) * this.length
-                );
-                ctx.strokeStyle = gradient;
-                ctx.lineWidth = this.size * 3;
-                ctx.stroke();
-                ctx.restore();
-            }
-        }
-
-        // 创建流星
-        const meteors = [];
-        for (let i = 0; i < 20; i++) {
-            meteors.push(new Meteor());
-        }
-
-        // 动画循环
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // 图片查看功能
+        function openModal(imgSrc) {
+            const modal = document.getElementById("imageModal");
+            const modalImg = document.getElementById("modalImage");
             
-            meteors.forEach(meteor => {
-                meteor.update();
-                meteor.draw();
-            });
-            
-            requestAnimationFrame(animate);
+            modal.style.display = "flex";
+            modalImg.src = imgSrc;
+            document.body.style.overflow = "hidden"; // 防止背景滚动
         }
-
-        animate();
-
-        // 按钮点击处理
-        function handleButtonClick(buttonId) {
-            // 播放点击音效
-            const clickSound = document.getElementById('click-sound');
-            clickSound.currentTime = 0;
-            clickSound.volume = 0.5; // 确保音量适中
-            clickSound.play().then(() => {
-                console.log('音效播放成功');
-            }).catch(error => {
-                console.log('无法播放音效:', error);
-                // 如果自动播放被阻止，尝试用户交互后播放
-                setTimeout(() => {
-                    clickSound.play().catch(e => console.log('二次尝试播放失败:', e));
-                }, 100);
-            });
-            
-            const actions = {
-                1: () => window.location.href = 'https://pixinyuleguangfang-51nw.vercel.app/',
-                2: () => window.location.href = 'https://picinyulegudong.vercel.app/',
-                3: () => window.location.href = 'https://pixinyule-iuns.vercel.app/'
-            };
-            
-            if (actions[buttonId]) {
-                actions[buttonId]();
+        
+        function closeModal() {
+            const modal = document.getElementById("imageModal");
+            modal.style.display = "none";
+            document.body.style.overflow = "auto"; // 恢复背景滚动
+        }
+        
+        // 点击模态框外部关闭
+        window.onclick = function(event) {
+            const modal = document.getElementById("imageModal");
+            if (event.target === modal) {
+                closeModal();
             }
         }
-
-        // 初始化Lucide图标
-        lucide.createIcons();
-
-        // 页面加载后自动刷新一次（仅在首次访问时）
-        if (!localStorage.getItem('pageRefreshed')) {
+        
+        // 公告栏暂停/继续功能
+        const announcementContent = document.querySelector('.announcement-content');
+        let isPaused = false;
+        
+        announcementContent.addEventListener('mouseenter', () => {
+            announcementContent.style.animationPlayState = 'paused';
+            isPaused = true;
+        });
+        
+        announcementContent.addEventListener('mouseleave', () => {
+            announcementContent.style.animationPlayState = 'running';
+            isPaused = false;
+        });
+        
+        // 触摸设备支持
+        announcementContent.addEventListener('touchstart', () => {
+            announcementContent.style.animationPlayState = 'paused';
+            isPaused = true;
+        });
+        
+        announcementContent.addEventListener('touchend', () => {
+            announcementContent.style.animationPlayState = 'running';
+            isPaused = false;
+        });
+        
+        // 复制到剪贴板功能
+        function copyToClipboard(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            
+            // 显示复制成功提示
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = '已复制!';
+            button.classList.add('bg-green-500');
+            
             setTimeout(() => {
-                localStorage.setItem('pageRefreshed', 'true');
-                window.location.reload();
-            }, 1000); // 1秒后刷新
+                button.textContent = originalText;
+                button.classList.remove('bg-green-500');
+            }, 2000);
         }
+        
+        // 显示官方二维码功能
+        function showOfficialQRCode() {
+            const modal = document.getElementById("imageModal");
+            const modalImg = document.getElementById("modalImage");
+            
+            // 设置二维码图片（这里使用占位图，实际应用中可以替换为真实的二维码图片）
+            modalImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=Official%20Address%20QR%20Code';
+            modalImg.alt = '官方地址二维码';
+            
+            // 显示模态框
+            modal.style.display = "flex";
+            document.body.style.overflow = "hidden"; // 防止背景滚动
+        }
+        
+        // 页面加载完成后的初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            // 添加页面加载动画效果
+            const elements = document.querySelectorAll('.text-item, .image-item');
+            elements.forEach((el, index) => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }, 100 * index);
+            });
+        });
     </script>
-</body>
-</html>
+
+</body></html>
